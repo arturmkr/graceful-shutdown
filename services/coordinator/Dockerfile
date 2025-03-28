@@ -5,6 +5,6 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY services/coordinator/ ./
+COPY services/ ./services
 
 ENTRYPOINT [ "python", "-m", "services.coordinator.app" ]

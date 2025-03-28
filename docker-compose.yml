@@ -3,7 +3,8 @@ version: '3.8'
 services:
   worker:
     build:
-      context: ./services/worker
+      context: .
+      dockerfile: services/worker/Dockerfile
     ports:
       - "8001:8001"
     environment:
@@ -13,7 +14,8 @@ services:
 
   coordinator:
     build:
-      context: ./services/coordinator
+      context: .
+      dockerfile: services/coordinator/Dockerfile
     ports:
       - "8000:8000"
     environment:
