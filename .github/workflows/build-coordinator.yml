@@ -25,6 +25,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./services/coordinator
+          context: .
+          file: ./services/coordinator/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/graceful-coordinator:latest
