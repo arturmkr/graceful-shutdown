@@ -12,6 +12,7 @@ spec:
       labels:
         app: coordinator
     spec:
+      terminationGracePeriodSeconds: 120
       containers:
         - name: coordinator
           image: arturmkr/graceful-coordinator:latest

@@ -12,6 +12,7 @@ spec:
       labels:
         app: worker
     spec:
+      terminationGracePeriodSeconds: 120
       containers:
         - name: worker
           image: arturmkr/graceful-worker:latest
