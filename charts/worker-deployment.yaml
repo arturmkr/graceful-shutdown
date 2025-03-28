@@ -17,3 +17,6 @@ spec:
           image: arturmkr/graceful-worker:latest
           ports:
             - containerPort: 8001
+          env:
+            - name: COORDINATOR_URL
+              value: "http://coordinator:8000"

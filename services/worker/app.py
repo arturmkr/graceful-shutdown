@@ -13,7 +13,7 @@ from services.worker.models import TaskResult, TaskRequest
 app = FastAPI(title="worker")
 logger = logging.getLogger("worker")
 logging.basicConfig(level=logging.INFO)
-
+COORDINATOR_URL = os.getenv("COORDINATOR_URL", "http://localhost:8000")
 shutdown_event = asyncio.Event()
 task_store: Dict[str, TaskResult] = {}
 running_tasks: Dict[str, asyncio.Task] = {}
@@ -59,7 +59,7 @@ async def run_and_callback(task_id: str, iterations: int):
     result = await run_task(task_id, iterations)
     task_store[task_id] = result
     try:
-        callback_url = os.getenv("COORDINATOR_URL", "http://localhost:8000/results")
+        callback_url = f"{COORDINATOR_URL}/results"
         async with httpx.AsyncClient() as client:
             await client.post(callback_url, json=result.dict())
         logger.info(f"[{task_id}] Async result sent to coordinator.")
