@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'services/coordinator/**'
+      - '.github/workflows/build-coordinator.yml'
     branches: [ main ]
 
 jobs:

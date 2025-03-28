@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'services/worker/**'
+      - '.github/workflows/build-worker.yml'
     branches: [ main ]
 
 jobs:
