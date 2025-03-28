@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  worker:
+    build:
+      context: ./services/worker
+    ports:
+      - "8001:8001"
+    environment:
+      - COORDINATOR_URL=http://coordinator:8000
+    networks:
+      - graceful-net
+
+  coordinator:
+    build:
+      context: ./services/coordinator
+    ports:
+      - "8000:8000"
+    environment:
+      - WORKER_URL=http://worker:8001
+    depends_on:
+      - worker
+    networks:
+      - graceful-net
+
+networks:
+  graceful-net:
+    driver: bridge
