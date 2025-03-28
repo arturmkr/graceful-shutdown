@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException
 from typing import Dict
 import httpx
 
-from models import TaskRequest, TaskResult
+from services.coordinator.models import TaskRequest, TaskResult
 
 app = FastAPI(title="coordinator")
 logger = logging.getLogger("coordinator")
@@ -61,4 +61,4 @@ def setup_signals():
 if __name__ == "__main__":
     import uvicorn
     setup_signals()
-    uvicorn.run("app:app", host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
