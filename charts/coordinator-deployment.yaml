@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: coordinator
-          image: graceful-coordinator:latest
+          image: arturmkr/graceful-worker:latest
           ports:
             - containerPort: 8000
           env:

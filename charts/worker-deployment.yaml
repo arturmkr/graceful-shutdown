@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: worker
-          image: graceful-worker:latest
+          image: arturmkr/graceful-worker:latest
           ports:
             - containerPort: 8001
