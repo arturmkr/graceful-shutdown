@@ -23,6 +23,22 @@ def health():
     return {"status": "ok"}
 
 
+from datetime import datetime, timezone
+
+
+@app.get("/ping")
+async def ping_worker(duration: int):
+    async with httpx.AsyncClient() as client:
+        for _ in range(duration):
+            try:
+                resp = await client.get(f"{WORKER_URL}/health")
+                logger.info(f"[PING] {datetime.now(timezone.utc).isoformat()} - {resp.status_code}")
+            except Exception as e:
+                logger.error(f"[PING] {datetime.now(timezone.utc).isoformat()} - ERROR: {e}")
+            await asyncio.sleep(1)
+    return {"status": "done"}
+
+
 @app.post("/sync-task")
 async def sync_task(req: TaskRequest):
     async with httpx.AsyncClient(timeout=None) as client:

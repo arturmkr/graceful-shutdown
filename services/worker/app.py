@@ -21,6 +21,21 @@ shutdown_complete_event = asyncio.Event()
 task_store: Dict[str, TaskResult] = {}
 running_tasks: Dict[str, asyncio.Task] = {}
 
+from datetime import datetime, timezone
+
+
+@app.get("/ping")
+async def ping_coordinator(duration: int):
+    async with httpx.AsyncClient() as client:
+        for _ in range(duration):
+            try:
+                resp = await client.get(f"{COORDINATOR_URL}/health")
+                logger.info(f"[PING] {datetime.now(timezone.utc).isoformat()} - {resp.status_code}")
+            except Exception as e:
+                logger.error(f"[PING] {datetime.now(timezone.utc).isoformat()} - ERROR: {e}")
+            await asyncio.sleep(1)
+    return {"status": "done"}
+
 
 @app.get("/health")
 def health():
