@@ -37,6 +37,26 @@ async def ping_coordinator(duration: int):
     return {"status": "done"}
 
 
+@app.post("/sleep")
+async def sleep_background(duration: int):
+    task_id = str(uuid.uuid4())
+    logger.info(f"[{task_id}] Started sleep task for {duration} seconds")
+
+    async def background_sleep():
+        try:
+            for i in range(duration):
+                logger.info(f"[{task_id}] Sleeping... {i + 1}/{duration}")
+                await asyncio.sleep(1)
+            logger.info(f"[{task_id}] Sleep complete")
+        finally:
+            if task_id in running_tasks:
+                del running_tasks[task_id]
+
+    task = asyncio.create_task(background_sleep())
+    running_tasks[task_id] = task
+
+    return {"task_id": task_id, "status": "sleep started"}
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
